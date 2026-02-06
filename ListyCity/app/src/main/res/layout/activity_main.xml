@@ -18,8 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="10dp"/>
 
-    <ListView
-        android:id="@+id/listviewCities"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewCities"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/buttonAddCity" />
