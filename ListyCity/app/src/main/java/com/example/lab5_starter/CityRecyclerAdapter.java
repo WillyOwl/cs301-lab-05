@@ -19,11 +19,11 @@ import java.util.ArrayList;
  */
 public class CityRecyclerAdapter extends RecyclerView.Adapter<CityRecyclerAdapter.CityViewHolder> {
 
-    private ArrayList<City> cities;
-    private Context context;
-    private CollectionReference citiesRef;
-    private OnCityClickListener onCityClickListener;
-    private CityDeletionHelper deletionHelper;
+    private final ArrayList<City> cities;
+    private final Context context;
+    private final CollectionReference citiesRef;
+    private final OnCityClickListener onCityClickListener;
+    private final CityDeletionHelper deletionHelper;
 
     /**
      * Interface for handling city item clicks
@@ -84,21 +84,23 @@ public class CityRecyclerAdapter extends RecyclerView.Adapter<CityRecyclerAdapte
             // Show deletion in progress
             deletionHelper.showDeletionToast(cityToDelete.getName());
             
+            // Remove from local list immediately (optimistic update)
+            cities.remove(position);
+            notifyItemRemoved(position);
+            
             // Delete from Firestore
             citiesRef.document(cityToDelete.getName())
                     .delete()
                     .addOnSuccessListener(aVoid -> {
                         Log.d("Firestore", "City successfully deleted!");
                         deletionHelper.showDeletionSuccessToast(cityToDelete.getName());
-                        // Remove from local list and notify adapter
-                        cities.remove(position);
-                        notifyItemRemoved(position);
                     })
                     .addOnFailureListener(e -> {
                         Log.e("Firestore", "Error deleting city", e);
                         deletionHelper.showDeletionErrorToast(cityToDelete.getName());
-                        // If deletion fails, notify that the item changed to restore the view
-                        notifyItemChanged(position);
+                        // If deletion fails, restore the city to the list
+                        cities.add(position, cityToDelete);
+                        notifyItemInserted(position);
                     });
         }
     }
@@ -106,7 +108,7 @@ public class CityRecyclerAdapter extends RecyclerView.Adapter<CityRecyclerAdapte
     /**
      * ViewHolder class for city items
      */
-    public class CityViewHolder extends RecyclerView.ViewHolder {
+    public static class CityViewHolder extends RecyclerView.ViewHolder {
         TextView cityName;
         TextView cityProvince;
 
