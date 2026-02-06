@@ -2,12 +2,18 @@
 
 ## Student Details
 
-- **Full Name:** `<Enter name>`
-- **CCID:** `<Enter ccid>`
+- **Full Name:** `Will Zuo`
+- **CCID:** `zuo5`
 
 ## References and Resources
 
-List any resources used here, or simply put `N/A` if not applicable.
+Android RecyclerView overview https://developer.android.com/develop/ui/views/layout/recyclerview
+
+Creating an Adapter & ViewHolder https://developer.android.com/develop/ui/views/layout/recyclerview#adapter
+
+ItemTouchHelper https://developer.android.com/reference/androidx/recyclerview/widget/ItemTouchHelper
+
+Communicating with adapters https://developer.android.com/develop/ui/views/layout/recyclerview#events.
 
 ## Verbal Collaboration
 
